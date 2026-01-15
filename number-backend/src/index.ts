@@ -1,9 +1,18 @@
+import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 
 const app = new Hono()
 
 app.get('/', (c) => {
-  return c.json({ "helo": "yes, is work" })
+  return c.json({"helo": "work"})
 })
+
+serve({
+  fetch: app.fetch,
+  port: 3000
+}, (info) => {
+  console.log(`Server is running on http://localhost:${info.port}`)
+})
+
 
 export default app
