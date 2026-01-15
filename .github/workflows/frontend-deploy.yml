@@ -37,7 +37,8 @@ jobs:
       # 5. Deploy ke Cloudflare
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
-        env:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          wranglerVersion: "4.59.1"
           workingDirectory: number-frontend
+          
