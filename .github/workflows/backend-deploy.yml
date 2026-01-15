@@ -25,6 +25,12 @@ jobs:
       - run: npm ci
         working-directory: number-backend
 
+      # Prepare runtime (Worker)
+      - name: Prepare runtime for Worker
+        run: |
+          rm -f number-backend/src/runtime.ts
+          cp resources/backend-runtime/worker.runtime.ts number-backend/src/runtime.ts
+
       # 4. Build Hono project
       - run: npm run build
         working-directory: number-backend
