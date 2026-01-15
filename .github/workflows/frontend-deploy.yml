@@ -10,8 +10,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    environment: deploy
-
     steps:
       # 1. Checkout repo
       - uses: actions/checkout@v4
