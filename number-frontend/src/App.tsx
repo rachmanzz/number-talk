@@ -6,7 +6,7 @@ function App() {
         <div className="flex bg-white rounded-t-sm min-h-screen w-full max-w-3xl flex-col items-center p-4 sm:items-start">
           <h1 className="text-2xl font-bold">NUMBER TALK</h1>
 
-          <div className="flex flex-col gap-3 w-full">
+          <div className="flex flex-col mt-5 gap-3 w-full">
             <div className="flex flex-col">
               <div className="flex flex-row border p-4 gap-3 border-gray-50">
                 <div className="flex items-center">
