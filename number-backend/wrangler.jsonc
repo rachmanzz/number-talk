@@ -2,5 +2,6 @@
   "name": "number-api",
   "compatibility_date": "2026-01-15",
   "compatibility_flags": ["nodejs_compat"],
-  "preview_urls": false
+  "preview_urls": false,
+  "main": "./index.js"
 }
