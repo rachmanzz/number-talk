@@ -38,7 +38,7 @@ function App() {
                     <div className=" w-16 h-16 rounded-lg bg-gray-100" />
                   </div>
                   <div className="flex-1 flex flex-col px-4 gap-0.5">
-                    <span className="text-neutral-400 text-sm">update at 10 day ago</span>
+                    <span className="text-neutral-400 text-sm">update at 11 day ago</span>
                     <div className="text-lg">5</div>
                     <div>
                       <button className="bg-indigo-800 text-white text-sm py-1 px-5 rounded">Reply</button>
