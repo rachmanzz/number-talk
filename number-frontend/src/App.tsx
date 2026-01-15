@@ -37,7 +37,7 @@ function App() {
                   <div className="flex items-center">
                     <div className=" w-16 h-16 rounded-lg bg-gray-100" />
                   </div>
-                  <div className="flex-1 flex flex-col px-4 gap-0.5">
+                  <div className="flex-1 flex flex-col px-4 gap-1">
                     <span className="text-neutral-400 text-sm">update at 11 day ago</span>
                     <div className="text-lg">5</div>
                     <div>
