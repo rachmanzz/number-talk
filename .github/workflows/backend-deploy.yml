@@ -1,0 +1,39 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "number-backend/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repo
+      - uses: actions/checkout@v4
+
+      # 2. Setup Node.js
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: number-backend/package-lock.json
+
+      # 3. Install dependencies
+      - run: npm ci
+        working-directory: number-backend
+
+      # 4. Build Hono project
+      - run: npm run build
+        working-directory: number-backend
+
+      # 5. Deploy ke Cloudflare
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          wranglerVersion: "4.59.1"
+          workingDirectory: number-backend
+          
