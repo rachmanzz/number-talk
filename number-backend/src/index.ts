@@ -1,18 +1,12 @@
-import { serve } from '@hono/node-server'
-import { Hono } from 'hono'
+import { factory } from './factory.js'
+import { HandleCreateUser } from './handlers/users.handler.js'
 
-const app = new Hono()
+const app = factory.createApp()
 
-app.get('/', (c) => {
-  return c.json({"helo": "work"})
+app.get('/', async (c) => {
+  return c.json({type: "cloudflare worker", act: "handle apis"})
 })
 
-serve({
-  fetch: app.fetch,
-  port: 3000
-}, (info) => {
-  console.log(`Server is running on http://localhost:${info.port}`)
-})
-
+app.post('/auth/user/register', ...HandleCreateUser)
 
 export default app
