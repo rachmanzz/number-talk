@@ -5,7 +5,7 @@
     "dev": "tsx watch src/index.ts",
     "dev:legacy": "",
     "build": "tsc",
-    "wr:dev": "npx wrangler dev",
+    "wr:dev": "npx wrangler dev --config wrangler.dev.jsonc",
     "start": "node dist/index.js"
   },
   "dependencies": {
