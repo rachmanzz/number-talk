@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import { backendUrl } from "../../utils/backend"
 import { responseSchema } from "../response.schema"
 import { toast } from "react-toastify"
