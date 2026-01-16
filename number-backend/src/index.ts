@@ -3,6 +3,7 @@ import { HandleLoginUser, HandleRegisterUser, HandleUserInfo, HandleUserLogout }
 import { cors } from 'hono/cors'
 import { env } from 'hono/adapter'
 import { AuthMiddleware } from './middlewares/auth.js'
+import { HandleCreateNode, HandleGetNodeTree } from './handlers/nodes.handler.js'
 const app = factory.createApp()
 
 app.use(cors({
@@ -25,5 +26,9 @@ app.delete("/auth/user/logout", AuthMiddleware, ...HandleUserLogout)
 const authorizedApp = app.basePath("/authorized")
 authorizedApp.use(AuthMiddleware)
 authorizedApp.get("/user/info", ...HandleUserInfo)
+
+authorizedApp.post("/node/operation", ...HandleCreateNode)
+
+app.get("/open/node-trees", ...HandleGetNodeTree)
 
 export default app
