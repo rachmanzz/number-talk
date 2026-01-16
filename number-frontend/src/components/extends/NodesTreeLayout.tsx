@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState, type Dispatch } from "react"
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type Dispatch } from "react"
 import { useGetTreeNodes, type NodeTable } from "../../apis/node/query"
 import { useUserInfo } from "../providers/AuthLayout"
 import { toast } from "react-toastify"
@@ -8,6 +8,20 @@ import MultiIcon from "../icons/MultiIcon"
 import DivIcon from "../icons/DivIcon"
 import { usePostNumber } from "../../apis/node/mutation"
 import { useQueryClient } from "@tanstack/react-query"
+import { formatDistanceToNow } from "date-fns"
+
+const TimeAgo  = ({created_at}: {created_at: string|Date}) => {
+    const [timeInfo, setTimeInfo] = useState("")
+
+    useEffect(() => {
+        setTimeInfo(formatDistanceToNow(new Date(created_at), { addSuffix: false }))
+
+        return () => {
+            setTimeInfo("")
+        }
+    }, [created_at])
+    return <span className="text-gray-500">{timeInfo}</span>
+}
 
 const InputContext = createContext<string | null>(null)
 const OpenInputContext = createContext<Dispatch<React.SetStateAction<string | null>>>(() => { })
@@ -20,6 +34,7 @@ export const NodeItem = ({ data }: { data: NodeTable }) => {
     const inputID = useInputID()
     const setInputID = useSetInputID()
     const queryClient = useQueryClient()
+    const inputRef = useRef<HTMLTextAreaElement>(null)
     const postMutation = usePostNumber(() => {
         queryClient.invalidateQueries({
             queryKey: ["treenodeskey"]
@@ -42,6 +57,14 @@ export const NodeItem = ({ data }: { data: NodeTable }) => {
             toast("Please login first", { type: "warning" })
             return
         }
+
+        setTimeout(() => {
+            inputRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            })
+            inputRef.current?.focus()
+        }, 500)
         setInputID(id)
     }, [user])
 
@@ -62,7 +85,7 @@ export const NodeItem = ({ data }: { data: NodeTable }) => {
                     <div className=" w-12 h-12 rounded-lg bg-gray-100" />
                 </div>
                 <div className="flex-1 flex flex-col px-4 gap-1.5">
-                    <div className="flex gap-2 items-center">@{data.user_username}<span className="text-neutral-400 text-sm">update at 10 day ago</span></div>
+                    <div className="flex gap-2 items-center">@{data.user_username}<TimeAgo created_at={data.created_at} /></div>
                     <div className="text-md">{data.result_value}</div>
                     {user && (
                         <div>
@@ -86,7 +109,7 @@ export const NodeItem = ({ data }: { data: NodeTable }) => {
                     </div>
                     <div className="flex flex-col gap-1.5 w-full">
                         <div className="relative flex w-full items-center">
-                            <textarea value={numb} onChange={onInputNumberChange} placeholder="type your number here" className="w-full h-10 resize-none [&::-webkit-scrollbar]:hidden py-2 pl-2 pr-24 rounded-lg bg-gray-50"></textarea>
+                            <textarea ref={inputRef} value={numb} onChange={onInputNumberChange} placeholder="type your number here" className="w-full h-10 resize-none [&::-webkit-scrollbar]:hidden py-2 pl-2 pr-24 rounded-lg bg-gray-50"></textarea>
                             <div className="z-10 absolute flex right-2">
                                 <button onClick={onSubmitNumber} className="bg-indigo-800 text-white text-sm py-1 px-5 rounded">send</button>
                             </div>
@@ -172,3 +195,5 @@ export default function NodesTreeLayout() {
         </InputContext.Provider>
     )
 }
+
+
