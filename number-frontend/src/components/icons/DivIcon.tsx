@@ -16,8 +16,6 @@ export default function DivIcon({...props}: SVGProps<SVGSVGElement>) {
                 transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 40.5312 10.364)"
                 fill="currentColor"
             />
-            <rect x={4} y={4.03119} width={9} height={9} rx={2} fill="currentColor" />
-            <rect x={32} y={31.0312} width={9} height={9} rx={2} fill="currentColor" />
         </svg>
     )
 }
