@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS node_trees (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id TEXT PRIMARY KEY, -- UUID
 
-  parent_id INTEGER NULL,
-  user_id INTEGER NOT NULL,
+  parent_id TEXT NULL,
+  user_username TEXT NOT NULL,
 
   operation TEXT NOT NULL
     CHECK (operation IN ('start', 'add', 'sub', 'mul', 'div')),
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS node_trees (
     REFERENCES node_trees(id)
     ON DELETE CASCADE,
 
-  FOREIGN KEY (user_id)
-    REFERENCES users(id)
+  FOREIGN KEY (user_username)
+    REFERENCES users(username)
     ON DELETE CASCADE
 );
