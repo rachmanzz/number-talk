@@ -8,13 +8,15 @@ import MultiIcon from "../icons/MultiIcon"
 import DivIcon from "../icons/DivIcon"
 import { usePostNumber } from "../../apis/node/mutation"
 import { useQueryClient } from "@tanstack/react-query"
-import { formatDistanceToNow } from "date-fns"
+import { formatDistanceToNow, parseISO } from "date-fns"
 
-const TimeAgo  = ({created_at}: {created_at: string|Date}) => {
+const TimeAgo  = ({created_at}: {created_at: string}) => {
     const [timeInfo, setTimeInfo] = useState("")
 
     useEffect(() => {
-        setTimeInfo(formatDistanceToNow(new Date(created_at), { addSuffix: false }))
+        const date = parseISO(created_at.replace(" ", "T") + "Z"
+  )
+        setTimeInfo(formatDistanceToNow(date, { addSuffix: false }))
 
         return () => {
             setTimeInfo("")
