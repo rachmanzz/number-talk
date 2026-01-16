@@ -66,7 +66,7 @@ export const HandleLoginUser = factory.createHandlers(validator(LoginSchema), as
   await setSignedCookie(c, "auth-session", signData, c.env.SECRET_SIGN, {
     sameSite: isDev ? "Lax" : "None",
     secure: !isDev,
-    domain: isDev ? undefined : "*.rahmanzz.workers.dev",
+    domain: isDev ? undefined : "rahmanzz.workers.dev",
     path: "/",
     maxAge: 60 * 60 * 24 * 7
   })
