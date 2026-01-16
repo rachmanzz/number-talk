@@ -50,7 +50,7 @@ export const NodeItem = ({ data }: { data: NodeTable }) => {
             toast("invalid number", { type: "warning" })
             return
         }
-        
+
         postMutation.mutate({ parent_id: data.id, operation: op, val: numb })
         setNumb("")
     }
@@ -117,6 +117,31 @@ export const NodeItem = ({ data }: { data: NodeTable }) => {
 export default function NodesTreeLayout() {
     const { isPending, error, data } = useGetTreeNodes()
     const [openInput, setOpenInput] = useState<string | null>(null)
+    const [numb, setNumb] = useState("")
+    const queryClient = useQueryClient()
+    const postMutation = usePostNumber(() => {
+        queryClient.invalidateQueries({
+            queryKey: ["treenodeskey"]
+        })
+    })
+
+    const onInputNumberChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const target = e.target.value
+
+        if ((/^\d+$/.test(target)) || target === "") {
+            setNumb(target)
+        }
+    }
+
+    const onSubmitNumber = () => {
+        if (numb.trim() === "0" || numb.trim() === "") {
+            toast("invalid number", { type: "warning" })
+            return
+        }
+
+        postMutation.mutate({ operation: "start", val: numb })
+        setNumb("")
+    }
 
     if (error) return <div>Load data error..</div>
     if (isPending) return <div>Data on load...</div>
@@ -125,6 +150,20 @@ export default function NodesTreeLayout() {
         <InputContext.Provider value={openInput}>
             <OpenInputContext.Provider value={setOpenInput}>
                 <div className="flex flex-col mt-5 w-full">
+                    <div className="flex w-full flex-row border-l border p-2 gap-2 border-gray-50">
+                        <div className="flex items-center">
+                            <div className=" w-16 h-16 rounded-lg bg-gray-100" />
+                        </div>
+                        <div className="flex flex-col gap-1.5 w-full">
+                            <div className="relative flex w-full items-center">
+                                <textarea value={numb} onChange={onInputNumberChange} placeholder="type your number here" className="w-full h-10 resize-none [&::-webkit-scrollbar]:hidden py-2 pl-2 pr-24 rounded-lg bg-gray-50"></textarea>
+                                <div className="z-10 absolute flex right-2">
+                                    <button onClick={onSubmitNumber} className="bg-indigo-800 text-white text-sm py-1 px-5 rounded">send</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                     {data.map(it => (
                         <NodeItem data={it} key={it.id} />
                     ))}
